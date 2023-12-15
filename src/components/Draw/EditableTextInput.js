@@ -20,6 +20,7 @@ function getStyle(
     margin: "5px",
     background: "none",
     outline: "none",
+    overflow:"hidden",
     textDecoration:textDecoration?"underline":"none",
 
     color: "black",
@@ -48,6 +49,8 @@ export function EditableTextInput({
   width,
   height,
   value,
+  setNewHeight,
+  setNewWidth,
   onChange,
   onKeyDown,
   isEditing,
@@ -58,6 +61,10 @@ export function EditableTextInput({
   fontFamily,
   textDecoration
 }) {
+  const [inputValue, setInputValue] = useState(value);
+  const [disable, setDisable] = useState(false);
+
+
   const style = getStyle(
     width,
     height,
@@ -68,12 +75,13 @@ export function EditableTextInput({
     fontFamily,
     textDecoration
   );
-  const [inputValue, setInputValue] = useState(value);
-  const [disable, setDisable] = useState(false);
+
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
     onChange(event.target.value);
+    autoAdjust(event.target);
+    setNewHeight(calculateTextAreaHeight())
   };
 
   const handleEscapeKeys = (e) => {
@@ -84,13 +92,34 @@ export function EditableTextInput({
       // alert("enter")
     }
   };
+  const calculateTextAreaHeight = () => {
+    const textarea = document.getElementById('myTextarea'); 
+    if (textarea) {
+      const { scrollHeight, clientHeight,scrollWidth,clientWidth } = textarea;
+      const extraHeight = Math.max(scrollHeight, clientHeight)-height;
+      const extraWidth = Math.max(scrollWidth, clientWidth)-width;
+      setNewWidth(extraWidth)
+      if (extraHeight > 0){
+        return extraHeight;
+      }
+    }
+    return 0;
+  };
 
+  const autoAdjust = (element) => {
+    element.style.width = 'auto';
+    element.style.width = `${element.scrollWidth}px`;
+    element.style.height = 'auto';
+    element.style.height = `${element.scrollHeight}px`;
+  };
   return (
     <Html groupProps={{ x, y }} divProps={{ backgroundColor: "red" }}>
       <textarea
+      id="myTextarea"
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleEscapeKeys}
+        
         // onKeyDown={onkeydown}
         style={style}
         disabled={disable} // Disable the textarea if editing is not enabled

@@ -54,7 +54,7 @@ export function ResizableText({
         y={y}
         ref={textRef}
         text={text}
-        fill="black"
+        fill="red"
         fontFamily="sans-serif"
         fontSize={24}
         perfectDrawEnabled={false}

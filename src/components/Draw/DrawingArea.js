@@ -835,6 +835,12 @@ const DrawingArea = () => {
                   stroke={rectangle.color}
                   strokeWidth={2}
                   draggable
+                  shadow={{
+                    color: 'black',
+                    blur: 10,
+                    offsetX: 5,
+                    offsetY: 5,
+                  }}
                   // onTransform={(e) => handleRectTransform(e)}
                   onDragMove={(e) => handleRectangleDragMove(e, i)}
                 />

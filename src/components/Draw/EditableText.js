@@ -17,6 +17,8 @@ export function EditableText({
   text,
   width,
   height,
+  setNewHeight,
+  setNewWidth,
   onKeyDown,
   fontSize,
   italic,
@@ -27,10 +29,12 @@ export function EditableText({
   if (isEditing) {
     return (
       <EditableTextInput
-        x={x + 10}
-        y={y + 20}
+        x={x+10}
+        y={y+10}
         width={width}
         height={height}
+        setNewHeight={setNewHeight}
+        setNewWidth={setNewWidth}
         value={text}
         onChange={onChange}
         fontSize={fontSize}

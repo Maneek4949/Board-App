@@ -44,6 +44,9 @@ const Sticky = ({
     // align: "center"
   });
 
+  const [newHeight,setNewHeight] = useState(0)
+  const [newWidth,setNewWidth] = useState(0)
+
   const handleTextAlignChange = (align) => {
     console.log(align);
     setTextAlign(align);
@@ -113,8 +116,8 @@ const Sticky = ({
           <Rect
             x={x}
             y={y}
-            width={width}
-            height={height}
+            width={width+newWidth}
+            height={height+newHeight}
             fill={stickyColor}
             // stroke="#999966"
             // strokeWidth={4}
@@ -124,13 +127,18 @@ const Sticky = ({
             onDragEnd={handleDragEnd}
             onClick={handleSelect}
             ref={shapeRef}
+            shadowColor="black"
+            shadowOffsetY={10}
+            shadowOffsetX={0}
+            shadowBlur={20}
+            shadowOpacity={0.6}
           />
         )}
         {shape === "circle" && (
           <Circle
             x={x + width / 2} // Set the x-coordinate to the center of the circle
             y={y + height / 2} // Set the y-coordinate to the center of the circle
-            radius={width / 2} // Set the radius of the circle
+            radius={(width+newHeight) / 2} // Set the radius of the circle
             fill={stickyColor}
             stroke="#999966"
             strokeWidth={4}
@@ -138,6 +146,11 @@ const Sticky = ({
             onDragEnd={handleDragEnd}
             onClick={handleSelect}
             ref={shapeRef}
+            shadowColor="black"
+            shadowOffsetY={10}
+            shadowOffsetX={0}
+            shadowBlur={20}
+            shadowOpacity={0.6}
           />
         )}
 
@@ -145,8 +158,8 @@ const Sticky = ({
           <Rect
             x={x}
             y={y}
-            width={width}
-            height={width}
+            width={width+newHeight}
+            height={width+newHeight}
             fill={stickyColor}
             stroke="#999966"
             strokeWidth={4}
@@ -155,6 +168,11 @@ const Sticky = ({
             onDragEnd={handleDragEnd}
             onClick={handleSelect}
             ref={shapeRef}
+            shadowColor="black"
+            shadowOffsetY={10}
+            shadowOffsetX={0}
+            shadowBlur={10}
+            shadowOpacity={0.6}
           />
         )}
         <Text
@@ -197,11 +215,13 @@ const Sticky = ({
         {textWriting && (
           <EditableText
             ref={inputRef}
-            x={x + 8}
+            x={x }
             y={y + 8}
             text={text}
             width={width}
             height={height}
+            setNewHeight={setNewHeight}
+            setNewWidth={setNewWidth}
             isEditing={textWriting}
             onChange={onChange}
             fontSize={fontSize}
