@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Html } from "react-konva-utils";
 
 function getStyle(
@@ -64,7 +64,6 @@ export function EditableTextInput({
   const [inputValue, setInputValue] = useState(value);
   const [disable, setDisable] = useState(false);
 
-
   const style = getStyle(
     width,
     height,
@@ -76,53 +75,52 @@ export function EditableTextInput({
     textDecoration
   );
 
-
   const handleChange = (event) => {
     setInputValue(event.target.value);
     onChange(event.target.value);
-    autoAdjust(event.target);
-    setNewHeight(calculateTextAreaHeight())
   };
 
   const handleEscapeKeys = (e) => {
     if (e.keyCode === ESCAPE_KEY) {
-      e.preventDefault(); // Prevent the default behavior of the Enter key
-      // Call any necessary logic here after Enter key press
+      e.preventDefault();
       setDisable(true);
-      // alert("enter")
     }
   };
+
+  useEffect(() => {
+    autoAdjust();
+    setNewHeight(calculateTextAreaHeight());
+  }, [inputValue]); // Run the effect whenever the inputValue changes
+
   const calculateTextAreaHeight = () => {
-    const textarea = document.getElementById('myTextarea'); 
+    const textarea = document.getElementById('myTextarea');
     if (textarea) {
-      const { scrollHeight, clientHeight,scrollWidth,clientWidth } = textarea;
-      const extraHeight = Math.max(scrollHeight, clientHeight)-height;
-      const extraWidth = Math.max(scrollWidth, clientWidth)-width;
-      setNewWidth(extraWidth)
-      if (extraHeight > 0){
-        return extraHeight;
-      }
+      const { scrollHeight, clientHeight } = textarea;
+      const extraHeight = Math.max(scrollHeight, clientHeight) - height;
+      setNewWidth(textarea.scrollWidth-width); // Set the width without extra calculation
+      return extraHeight > 0 ? extraHeight : 0;
     }
     return 0;
   };
 
-  const autoAdjust = (element) => {
-    element.style.width = 'auto';
-    element.style.width = `${element.scrollWidth}px`;
-    element.style.height = 'auto';
-    element.style.height = `${element.scrollHeight}px`;
+  const autoAdjust = () => {
+    const textarea = document.getElementById('myTextarea');
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+      textarea.style.width = `${inputValue.length+width}px`
+    }
   };
+
   return (
     <Html groupProps={{ x, y }} divProps={{ backgroundColor: "red" }}>
       <textarea
-      id="myTextarea"
+        id="myTextarea"
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleEscapeKeys}
-        
-        // onKeyDown={onkeydown}
         style={style}
-        disabled={disable} // Disable the textarea if editing is not enabled
+        disabled={disable}
       />
     </Html>
   );

@@ -138,7 +138,7 @@ const Sticky = ({
           <Circle
             x={x + width / 2} // Set the x-coordinate to the center of the circle
             y={y + height / 2} // Set the y-coordinate to the center of the circle
-            radius={(width+newHeight) / 2} // Set the radius of the circle
+            radius={(width+Math.max(newHeight,newWidth)) / 2} // Set the radius of the circle
             fill={stickyColor}
             stroke="#999966"
             strokeWidth={4}
@@ -158,8 +158,8 @@ const Sticky = ({
           <Rect
             x={x}
             y={y}
-            width={width+newHeight}
-            height={width+newHeight}
+            width={width+Math.max(newHeight,newWidth)}
+            height={width+Math.max(newHeight,newWidth)}
             fill={stickyColor}
             stroke="#999966"
             strokeWidth={4}
