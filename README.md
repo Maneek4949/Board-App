@@ -7,5 +7,6 @@ Task Instructions: Implement the stiky feature in whiteboard app
 
 ## Comprehensive working video
 
-https://github.com/Maneek4949/Board-App/assets/69102431/230d22f9-e779-4b92-9a3b-c4de6cf563a2
+
+https://github.com/Maneek4949/Board-App/assets/69102431/e019300a-d6ce-43ab-99ca-cbb09ab951ec
 
